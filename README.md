@@ -5,4 +5,4 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.x
 
 ### Dependencies:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This uses filecmp, hashlib and os modules. But those modules should be already available as they are installed by default witb python3.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This uses filecmp, hashlib and os modules. But those modules should be already available as they are installed by default with python3.
