@@ -24,7 +24,6 @@
 from os import path, walk, remove
 from filecmp import cmp
 import hashlib
-from traceback import format_exc
 
 
 def compare_files(file_list):
