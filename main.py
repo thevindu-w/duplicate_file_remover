@@ -27,6 +27,7 @@ from controller import UIcontroller
 
 ui_controller = None
 
+
 def browse_btn_clk():
     folder_selected = filedialog.askdirectory()
     input_path.delete(0, 'end')
@@ -36,26 +37,29 @@ def browse_btn_clk():
 def scan_btn_clk():
     global ui_controller
     root = input_path.get()
-    if ui_controller!=None:
+    if ui_controller != None:
         ui_controller.end()
     ui_controller = UIcontroller(root, list_container, size_label)
     ui_controller.start()
 
+
 def del_btn_clk():
-    # TODO: Implement
-    pass
+    global ui_controller
+    if ui_controller == None:
+        return
+    ui_controller.del_files()
 
 
 def back_btn_clk():
     global ui_controller
-    if ui_controller==None:
+    if ui_controller == None:
         return
     ui_controller.show_prev()
 
 
 def next_btn_clk():
     global ui_controller
-    if ui_controller==None:
+    if ui_controller == None:
         return
     ui_controller.show_next()
 
@@ -107,9 +111,9 @@ bottom_frame = tk.Frame(home, bg="gray")
 bottom_frame.grid(column=0, row=1, sticky=tk.NSEW)
 bottom_frame.grid_propagate(False)
 
-bottom_frame.columnconfigure(0, weight=1)
-bottom_frame.columnconfigure(1, weight=30)
-bottom_frame.columnconfigure(2, weight=1)
+bottom_frame.columnconfigure(0, minsize=70, weight=1)
+bottom_frame.columnconfigure(1, weight=50)
+bottom_frame.columnconfigure(2, minsize=70, weight=1)
 
 bottom_frame.grid_rowconfigure(0, weight=1)
 

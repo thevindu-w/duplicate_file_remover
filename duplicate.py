@@ -206,6 +206,7 @@ def duplicate_remove(root, MIN_SIZE=-1):
     except KeyboardInterrupt:
         pass
 
+
 if __name__ == "__main__":
     root = input("Enter path : ")
     duplicate_remove(root, 1)
