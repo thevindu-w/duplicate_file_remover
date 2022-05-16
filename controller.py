@@ -31,7 +31,7 @@ from duplicate import get_duplicates
 
 
 class UIcontroller(Thread):
-    def __init__(self, root, list_container, size_label):
+    def __init__(self, root, list_container, size_label, canvas, dup_width):
         Thread.__init__(self)
         self.listLock = Lock()
         self.duplicates = []
@@ -40,6 +40,8 @@ class UIcontroller(Thread):
         self.root = root
         self.size_label = size_label
         self.list_container = list_container
+        self.canvas = canvas
+        self.dup_width = dup_width
 
     def run(self):
         try:
@@ -106,6 +108,8 @@ class UIcontroller(Thread):
                     elem[2].destroy()
                     remove(fname)
                 self.listLock.release()
+                self.list_container.update()
+                self.canvas.configure(scrollregion=self.canvas.bbox('all'))
         except:
             pass
 
@@ -114,22 +118,26 @@ class UIcontroller(Thread):
         for old_container in self.list_container.winfo_children():
             old_container.destroy()
         self.check_list = []
+        odd = False
         for dup_name in dup_list:
-            self.__append_dup_file(dup_name, dup_list)
+            col = 0xbb if odd else 0xcc
+            self.__append_dup_file(dup_name, dup_list, "#%02x%02x%02x"%(col,col,col))
+            odd = not odd
+        self.canvas.configure(scrollregion=self.canvas.bbox('all'))
 
-    def __append_dup_file(self, file_name, parent_list):
+    def __append_dup_file(self, file_name, parent_list, color):
         file_container = tk.Frame(
-            self.list_container, bg="#aaaaaa", pady=1, padx=1)
+            self.list_container, bg=color, pady=1, padx=1)
         file_container.columnconfigure(0, weight=1, minsize=30)
         file_container.columnconfigure(1, weight=1000)
         boolVar = tk.BooleanVar()
         chk_box = tk.Checkbutton(
-            file_container, bg="#aaaaaa", variable=boolVar, highlightthickness=0, bd=0)
+            file_container, bg=color, variable=boolVar, highlightthickness=0, bd=0)
         chk_box.grid(column=0, row=0, sticky=tk.NSEW, padx=0, pady=0)
         chk_box.update()
-        width = self.list_container.winfo_width() - chk_box.winfo_width() - 10
-        fname_label = tk.Label(file_container, bg="#aaaaaa", text=file_name[len(self.root):],
-                               anchor="w", font="arial 12", wraplength=width, justify="left")
+        width = self.dup_width - chk_box.winfo_width()
+        fname_label = tk.Label(file_container, bg=color, width=width, text=file_name[len(self.root):],
+                               anchor="w", font="arial 12", wraplength=width-2, justify="left")
         fname_label.grid(column=1, row=0, sticky=tk.NSEW, padx=2, pady=1)
         file_container.pack(fill="x")
         self.check_list.append(
