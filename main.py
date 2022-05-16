@@ -39,7 +39,7 @@ def scan_btn_clk():
     root = input_path.get()
     if ui_controller != None:
         ui_controller.end()
-    ui_controller = UIcontroller(root, list_container, size_label)
+    ui_controller = UIcontroller(root, list_container, size_label, canvas, dup_width)
     ui_controller.start()
 
 
@@ -111,23 +111,25 @@ bottom_frame = tk.Frame(home, bg="gray")
 bottom_frame.grid(column=0, row=1, sticky=tk.NSEW)
 bottom_frame.grid_propagate(False)
 
-bottom_frame.columnconfigure(0, minsize=70, weight=1)
+bottom_frame.columnconfigure(0, minsize=50, weight=1)
 bottom_frame.columnconfigure(1, weight=50)
-bottom_frame.columnconfigure(2, minsize=70, weight=1)
+bottom_frame.columnconfigure(2, minsize=50, weight=1)
 
 bottom_frame.grid_rowconfigure(0, weight=1)
 
 
 back_btn = tk.Button(bottom_frame, text="<Back", command=back_btn_clk)
 back_btn.grid(column=0, row=0, sticky=tk.EW, padx=2, pady=2)
+back_btn.grid_propagate(False)
 
 next_btn = tk.Button(bottom_frame, text="Next>", command=next_btn_clk)
 next_btn.grid(column=2, row=0, sticky=tk.EW, padx=2, pady=2)
+next_btn.grid_propagate(False)
 
 
 mid_frame = tk.Frame(bottom_frame, bg="gray", pady=5)
 mid_frame.grid(column=1, row=0, sticky=tk.NSEW)
-# mid_frame.grid_propagate(False)
+mid_frame.grid_propagate(False)
 
 mid_frame.rowconfigure(0, weight=25)
 mid_frame.rowconfigure(1, minsize=30, weight=1)
@@ -136,17 +138,39 @@ mid_frame.grid_columnconfigure(0, weight=1)
 
 dup_container = tk.Frame(mid_frame, bg="white")
 dup_container.grid(column=0, row=0, sticky=tk.NSEW)
+dup_container.grid_propagate(False)
 
 dup_container.rowconfigure(0, minsize=30, weight=1)
-dup_container.rowconfigure(1, weight=50)
+dup_container.rowconfigure(1, weight=100)
 dup_container.grid_columnconfigure(0, weight=1)
 
 size_label = tk.Label(dup_container, bg="white",
                       anchor="w", font="arial 14 bold")
 size_label.grid(column=0, row=0, sticky=tk.NSEW, padx=5, pady=2)
+size_label.grid_propagate(False)
 
-list_container = tk.Frame(dup_container, bg="white", pady=2)
-list_container.grid(column=0, row=1, sticky=tk.NSEW)
+list_frame = tk.Frame(dup_container, bg="white")
+list_frame.grid(column=0, row=1, sticky=tk.NSEW)
+
+def on_configure(exent):
+    canvas.configure(scrollregion=canvas.bbox('all'))
+
+def safe_yview(a,y):
+    if float(y)<=0.:
+        y = 0.
+    canvas.yview(a,y)
+
+canvas = tk.Canvas(list_frame, bd=0, highlightthickness=0)
+canvas.pack(side=tk.LEFT, fill="both", expand=True)
+scrollbar = tk.Scrollbar(list_frame, command=safe_yview)
+scrollbar.pack(side=tk.LEFT, fill='y', expand=False)
+canvas.configure(yscrollcommand = scrollbar.set)
+canvas.bind('<Configure>', on_configure)
+mid_frame.update()
+scrollbar.update()
+dup_width = mid_frame.winfo_width() - scrollbar.winfo_width() - 1
+list_container = tk.Frame(canvas, width=dup_width)
+canvas.create_window((0,0), window=list_container, anchor='nw')
 
 btn_container = tk.Frame(mid_frame, bg="gray", pady=5)
 btn_container.grid(column=0, row=1, sticky=tk.NSEW)
