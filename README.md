@@ -1,8 +1,11 @@
-# duplicate_file_remover
-#### Find and remove duplicate files using python
+# Duplicate File Remover
 
-### Python version:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.x
+### Find and remove duplicate files using python
 
-### Dependencies:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This uses filecmp, hashlib and os modules. But those modules should be already available as they are installed by default witb python3.
+### Python version: 3.x
+
+## Dependencies
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This uses filecmp, hashlib, os and tkinter modules. But those modules should be already available as they are installed by default with python3.
+
+## How to use?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Just run main.py with python3.
