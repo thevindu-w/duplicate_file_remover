@@ -58,6 +58,7 @@ class UIcontroller(Thread):
             pass
 
     def show_next(self):
+        '''Show the next set of duplicates'''
         try:
             self.listLock.acquire()
             if self.index == None:
@@ -75,6 +76,7 @@ class UIcontroller(Thread):
             pass
 
     def show_prev(self):
+        '''Show the previous set of duplicates'''
         try:
             self.listLock.acquire()
             if self.index == None or self.index <= 0:
@@ -89,6 +91,7 @@ class UIcontroller(Thread):
             pass
 
     def del_files(self):
+        '''Delete selected files'''
         try:
             self.listLock.acquire()
             del_list = [elem for elem in self.check_list if elem[0].get()]
