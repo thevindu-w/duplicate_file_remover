@@ -181,6 +181,12 @@ def get_duplicates(root, MIN_SIZE=0):
 
 
 def duplicate_remove(root, MIN_SIZE=-1):
+    '''Remove duplicate files in the directory tree rooted at 'root'
+
+    :param root: Directory root to search and remove duplicates
+    :param MIN_SIZE: Minimum size of files to be checked
+    :returns None
+    '''
     root_len = len(root)
     # iterate through duplicate lists and
     # prompt user to select which files to remove
